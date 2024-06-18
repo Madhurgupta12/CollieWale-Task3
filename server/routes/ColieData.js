@@ -21,7 +21,7 @@ router.post('/add', async (req, res) => {
         coolie_id: req.body.coolie_id
       
       });
-  
+
       await coolie.save();
       res.status(201).json({success: true});
     } catch (error) {
@@ -55,6 +55,25 @@ router.post('/add', async (req, res) => {
       res.status(500).json({ error: 'Server Error' });
     }
   });
+
+  router.post("/check",async(req, res) => {
+    const {phone_number}=req.body;
+    try{
+    const ff=await Coolie.findOne({phone_number:phone_number})
+    if(ff)
+        return res.status(200).json({verified:true});
+    else
+    {
+
+    return res.status(404).json({verified:false});
+    }
+}
+catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server Error' });
+  }
+})
+
 
 
 
